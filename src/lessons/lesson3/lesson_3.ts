@@ -42,3 +42,5 @@ let prom1 = new Promise((res, rej) => {
      }, err2 => {})
 // just a plug
 export default ()=>{};
+
+

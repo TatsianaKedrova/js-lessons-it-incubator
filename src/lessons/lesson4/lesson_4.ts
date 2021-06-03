@@ -8,52 +8,11 @@ console.log('lesson 4');
 // Создайте промис, который постоянно находиться в состоянии pending.
 // В конструкторе промиса выведите в консоль сообщение "Promise is created".
 
-/*
-const prom = new Promise((resolve, reject) => {
-    resolve("Pending");
+const promis = new Promise((resolve, reject) => {
+    console.log("Promise complete");
+})
 
-    setTimeout(() => resolve("done"), 2000)
-});
-
-console.log(prom);
-*/
-
-/*let prom1 = new Promise((res, rej) => {
-    let a = 10;
-    console.log(a);
-    //some async request
-    // res(10);
-    res({a: 10});
-    // rej({name: 'Eugene'});
-});
-console.log(prom1);
-
-let promise = new Promise((resolve, reject) => {
-    setTimeout(()=> resolve("done"))
-});
-
-promise.then(
-    result=> alert(result),
-    error => alert(error)
-);*/
-
-function delay() {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve("done")
-        }, 3000)
-    })
-        .then(result => {
-            console.log(result)
-        },
-            error => {
-            return new Error("ERROR!: " + error)
-            })
-    // ваш код
-}
-console.log(delay());
-
-
+console.log(promis);
 
 
 // Task 02
@@ -61,18 +20,54 @@ console.log(delay());
 // и возвращает строку 'Promise Data'
 // Получите данные промиса и выведите их в консоль
 
+const prom1 = new Promise((res, rej) => {
+    res("Promise Data")
+}).then(result => {
+    console.log("Here is promise result: " + result)
+});
+
+console.log(prom1);
+
+
+//another example
+/*const myPromise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        resolve('foo');
+    }, 300);
+});
+console.log(myPromise);*/
 
 // Task 03
 // Создайте промис, который после создания сразу же переходит в состояние rejected
 // и возвращает строку 'Promise Error'
 // Получите данные промиса и выведите их в консоль
 
+/*let prom2 = new Promise((resolve, reject) => {
+    reject(new Error("Ooops, there is an error..."))
+}).then(err => {
+    console.log("Error message: " + err)
+});
+console.log(prom2);*/
 
 // Task 04
 // Создайте промис, который переходит в состояние resolved через 3с.
 // (Используйте setTimeout)
 // и возвращает строку 'Promise Data'
 // Получите данные промиса и выведите их в консоль
+
+let prom4 = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        resolve("Promise data")
+    }, 3000)
+}).then(
+    result => {
+        console.log("Result: " + result)
+    },
+    error => {
+        return new Error("This is a Bug!")
+    }
+)
+console.log(prom4);
 
 
 // Task 05
@@ -82,11 +77,48 @@ console.log(delay());
 // а последние два функциями, которые принимают один параметр и выводят
 // в консоль сообщения: первая - `Promise is resolved with data: ${paramName}`
 // вторая - `Promise is rejected with error: ${paramName}`
+let promise = new Promise((resolve, reject) => {
+
+});
+type promiseType = typeof promise;
+type ObjectType = {
+    promise: null | promiseType
+    resolve: null | (() => void)
+    reject: null | (() => void)
+    onSuccess: (paramName: any) => void
+    onError: (paramName: any) => void
+}
+
+let handlePromise: ObjectType = {
+    promise: null,
+    resolve: null,
+    reject: null,
+    onSuccess(paramName: any) {
+        console.log(`Promise is resolved with data: ${paramName}`)
+    },
+    onError(paramName: any) {
+        console.log(`Promise is rejected with error: ${paramName}`)
+    }
+}
+
 // Создайте три обработчика события click для кнопок "Create Promise", "Resolve Promise", "Reject Promise".
 // Первый обработчик, создает промис, заполняет первые три свойства,
 // описаного выше объекта: свойство promise получает новый созданный промис,
 // свойства resolve и reject получают ссылки на соответствующие функции
 // resolve и reject. Следующие два обработчика запускают методы resolve и reject.
+
+export const createPromise = () => {
+    let newPromise = new Promise((resolve, reject) => {
+        handlePromise.resolve = resolve;
+        handlePromise.reject = reject;
+    })
+
+    handlePromise.promise = newPromise;
+
+    console.log(newPromise);
+    console.log(handlePromise)
+
+}
 
 
 // Task 06
@@ -104,6 +136,74 @@ console.log(delay());
 // и выведите в консоль {name, age, city}
 
 
-
 // just a plug
-export default ()=>{};
+export default () => {
+};
+
+//examples
+/*function delay() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve("done")
+        }, 3000)
+    })
+        .then(result => {
+            console.log(result)
+        },
+            error => {
+            return new Error("ERROR!: " + error)
+            })
+    // ваш код
+}
+console.log(delay());*/
+
+/*
+console.log('Request data...');
+
+setTimeout(() => {
+    console.log('Preparing data...')
+    const backendData = {
+        server: 'aws',
+        port: 2000,
+        status: 'working'
+    }
+    setTimeout(() => {
+        // backendData.modified = true;
+        console.log('Data received', backendData)
+
+    }, 2000)
+}, 2000)*/
+
+const p = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        console.log('Preparing data...');
+        const backendData = {
+            server: 'aws',
+            port: 2000,
+            status: 'working'
+        };
+        resolve(backendData)
+    }, 2000)
+}).then((data: any) => {
+        console.log('Promise resolved...', data);
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                data.modified = true
+                resolve(data)
+            }, 2000)
+        })
+    })
+    .then((clientData: any) => {
+        console.log('Data received', clientData);
+        clientData.fromPromise = true;
+        return clientData;
+    })
+    .then(data => {
+        console.log("Modified", data)
+    })
+    .catch(err => console.error("Error: ", err))
+    .finally(()=> {
+        console.log('Finally')
+    })
+
+console.log(p);
