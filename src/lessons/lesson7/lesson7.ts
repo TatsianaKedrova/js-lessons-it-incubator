@@ -13,6 +13,8 @@ console.log('Lesson 7');
 // https://www.youtube.com/watch?v=aQkgUUmUJy4&t=21s
 // https://www.youtube.com/watch?v=b55hiUlhAzI
 
+//My examples
+
 
 //Task 01
 // Реализовать класс Animal который принимает name(по умолчанию 'Animal') в качестве параметра, у которого будет 3
@@ -39,6 +41,38 @@ console.log('Lesson 7');
 
 // Task 05
 // Используя метод Apply реализовать свой собственный метод bind
+
+let obj = {
+    name: "Evgen",
+    sayName(a, b) {
+        console.log('this.name', this.name);
+        console.log('a', a);
+        console.log('b', b)
+    }
+}
+
+let obj2 = {
+    name: "Hanna"
+}
+
+let resultFunc = obj.sayName.bind(obj2, 10);
+resultFunc(50);
+
+let obj3 = {
+    name: "Yo"
+}
+
+
+
+Function.prototype._bind = function (context, ...args) {
+    // const _this = this;
+    // return function (...rgs2) {
+    //     return _this.apply(context, [...args, ...rgs2])
+    // }
+    return (...rgs2)=> this.apply(context, [...args, ...rgs2]);
+}
+
+let resultFunc2 = obj.sayName._bind(obj3, 75);
 
 
 // just a plug

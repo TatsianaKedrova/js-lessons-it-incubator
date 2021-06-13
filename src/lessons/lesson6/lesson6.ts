@@ -12,6 +12,61 @@ console.log('Lesson 6');
 // Создать массив из десяти элементов такого типа, упорядочить записи по возрастанию среднего балла.
 // Добавить возможность вывода фамилий и номеров групп студентов, имеющих оценки, равные только 4 или 5.
 
+interface IStudent {
+    name: string;
+    surname: string;
+    groupNumber: number;
+    progress: number[];
+}
+
+class Student implements IStudent {
+    averageMark: number;
+    constructor(public name: string, public surname: string, public groupNumber: number, public progress: number[]) {
+        this.averageMark = this.progress.reduce((sum, mark) => sum + mark) / this.progress.length
+    }
+
+    private static sortStudents(s1: Student, s2: Student) {
+        if(s1.averageMark > s2.averageMark) {
+            return 1;
+        } else if(s1.averageMark < s2.averageMark) {
+            return -1;
+        } else {
+            return 0;
+        }
+    }
+    static sort(arr: Array<Student>) {
+        const template = [...arr];
+        return template.sort(this.sortStudents)
+    }
+
+    private static isAllMarksEqualSomeMark(marks: number[], m: number) {
+        return marks.every(mark => mark === m);
+    }
+
+    private static filterStudent(arr: Array<Student>) {
+        const result: Array<Student> = [];
+        arr.forEach(item => {
+            if(this.isAllMarksEqualSomeMark(item.progress, 4) || this.isAllMarksEqualSomeMark(item.progress, 5)) {
+                result.push(item);
+            }
+        });
+        return result
+    }
+    static printGoodStudent(arr: Array<Student>) {
+        this.filterStudent(arr).forEach(s => {
+            console.log(`Student - ${s.surname}, Group - ${s.groupNumber};`);
+        });
+    }
+}
+
+let students = [
+    new Student('Evgen', 'Shevchuk', 1, [4,4,4,4,4]),
+    new Student('Vlad', 'Bizin', 2, [5,5,5,5,5]),
+    new Student('Anna', 'Angarskaya', 2, [4,5,4,5,5])
+]
+console.log(Student.sort(students));
+
+
 // Task 02
 // Создать класс с двумя переменными. Добавить конструктор с входными параметрами и инициализирующий члены класса по умолчанию.
 // Можно ли создать метод на экземпляре класса который будет удалять сам экземпляр класса?
@@ -36,5 +91,72 @@ console.log('Lesson 6');
 // Определить функции переназначения марки и грузоподъемности.
 
 // just a plug
+
+class Test {
+
+    name: string;
+    testFunc: Function;
+    constructor(name: string) {
+        this.name = name;
+        this.testFunc = function() {
+
+        }
+    }
+    sayHi() {
+
+    }
+
+    sayBye = () => {
+
+    }
+
+
+}
+
+let t = new Test('Evgen');
+console.log(t);
+
+let t2 = new Test('Vlad')
+console.log(t.testFunc === t2.testFunc);
+console.log(t.sayHi === t2.sayHi);
+console.log(t.sayBye === t2.sayBye);
+
+class Prooo {
+    constructor(public name: string) {
+    }
+}
+
+class Test2 {
+    name: string;
+
+    constructor(name: string) {
+        this.name = name;
+    }
+    sayHi() {
+        console.log('sayHi');
+    }
+}
+
+class Test3 extends Test2 {
+    constructor(name: string) {
+        super(name);
+    }
+    testMethod() {
+
+    }
+}
+
+class Test5 {
+    sayHi() {
+
+    }
+    private sayBye() {
+
+    }
+}
+let m = new Test5();
+t.sayHi();
+t.sayBye()
+
 export default () => {
 };
