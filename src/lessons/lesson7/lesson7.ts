@@ -42,16 +42,16 @@ console.log('Lesson 7');
 // Task 05
 // Используя метод Apply реализовать свой собственный метод bind
 
-let obj = {
+/*let obj = {
     name: "Evgen",
     sayName(a, b) {
         console.log('this.name', this.name);
         console.log('a', a);
         console.log('b', b)
     }
-}
+}*/
 
-let obj2 = {
+/*let obj2 = {
     name: "Hanna"
 }
 
@@ -60,11 +60,11 @@ resultFunc(50);
 
 let obj3 = {
     name: "Yo"
-}
+}*/
 
 
 
-Function.prototype._bind = function (context, ...args) {
+/*Function.prototype._bind = function (context, ...args) {
     // const _this = this;
     // return function (...rgs2) {
     //     return _this.apply(context, [...args, ...rgs2])
@@ -72,7 +72,7 @@ Function.prototype._bind = function (context, ...args) {
     return (...rgs2)=> this.apply(context, [...args, ...rgs2]);
 }
 
-let resultFunc2 = obj.sayName._bind(obj3, 75);
+let resultFunc2 = obj.sayName._bind(obj3, 75);*/
 
 
 // just a plug
